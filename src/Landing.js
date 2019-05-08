@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Navbar from './components/Navbar';
+import Topic from './components/Topic';
 
 class Landing extends Component {
 
     constructor() {
         super();
         this.state = {
+            title: '',
+            content: '',
             topics: []
         };
+        this.sendPost = this.sendPost.bind(this);
+        this.setTitle = this.setTitle.bind(this);
+        this.setContent = this.setContent.bind(this); 
     }
 
     componentDidMount() {
         this.setState({
+            // Fez o AJAX e o resultado vira isso
             topics: [
                 {
                     id: 1532,
@@ -34,25 +41,49 @@ class Landing extends Component {
         });
     }
 
+    sendPost(event) {
+        event.preventDefault();
+        let data = {
+            id: 6532,
+            title: this.state.title,
+            content: this.state.content
+        };
+        // POST para o servidor
+        console.log(JSON.stringify(data));
+        //Atualizando DOM
+        this.setState({
+            topics: this.state.topics.concat(data)
+        });
+    }
+
+    setTitle(event) {
+        this.setState({
+            title: event.target.value
+        });
+    }
+
+    setContent(event) {
+        this.setState({
+            content: event.target.value
+        });
+    }
+
     render() {
         return (
             <div className="landing">
-                <header className="nullfo-header">
-                    <div className="nullfo-header__logo">
-                        <img src={logo} alt="logo" />
-                    </div>
-                    <div className="nullfo-header__search">
-                        <input placeholder="Busca insana"/>
-                    </div>
-                </header>
+                <Navbar />
+                <div>
+                    <form method="POST" onSubmit={this.sendPost}>
+                        <input type="text" value={this.state.title} onChange={this.setTitle} />
+                        <input type="text" value={this.state.content} onChange={this.setContent} />
+                        <input type="submit" value="Enviar" />
+                    </form>
+                </div>
                 <article className="landing__topics">
                     <ul className="topics-list">
                     {
                         this.state.topics.map(topic => (
-                            <li key={topic.id} className="nullfo-topic-item">
-                                <h4>{topic.title}</h4>
-                                <p>{topic.content}</p>
-                            </li>
+                            <Topic element="li" content={topic} key={topic.id} />
                         ))
                     }
                     </ul>

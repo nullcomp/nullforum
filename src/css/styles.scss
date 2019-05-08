@@ -1,5 +1,9 @@
 @import './base/reset';
+@import './base/variables';
+@import './base/mixins-functions';
 @import './base/general';
 
-@import './components/nullfo-header/nullfo-header';
-@import './components/landing/landing';
+@import './components/input-form';
+@import './components/button-form';
+@import './components/navbar';
+@import './components/landing';
