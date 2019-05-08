@@ -1,11 +1,13 @@
-.nullfo-header {
+.navbar {
 
-    background-color: #282c34;
+    background-color: $white;
     display: flex;
     align-items: center;
     font-size: calc(10px + 2vmin);
-    color: white;
+    padding: 0 s(2);
+    color: $black;
     height: 64px;
+    @include solid-shadow;
 
     &__logo {
         
@@ -14,5 +16,13 @@
             height: 8vmin;
             pointer-events: none;
         }
+    }
+
+    &__search {
+        flex: 1;
+    }
+
+    &__actions {
+        margin-left: s(2);
     }
 }
