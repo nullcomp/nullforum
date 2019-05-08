@@ -1,0 +1,16 @@
+.button-form {
+
+    padding: s(1) s(2);
+    background: none;
+    border: solid 1px $purple-60;
+    border-radius: 8px;
+    color: $purple-60;
+    cursor: pointer;
+    outline: none;
+    margin: s(1);
+
+    &.primary {
+        background-color: $purple-60;
+        color: $white; 
+    }
+}

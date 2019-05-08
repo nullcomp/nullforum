@@ -1,0 +1,21 @@
+.input-form {
+
+    display: flex;
+    flex-direction: column;
+    
+    input {
+
+        padding: s(1);
+        box-sizing: border-box;
+        border-radius: 9px;
+        border: solid 1px $gray-100;
+        color: $gray-10;
+        width: 100%; 
+        transition: border-color .3s ease-in-out;
+        outline: none;
+        
+        &::placeholder {
+            color: $gray-80;
+        }
+    }
+}
