@@ -48,9 +48,18 @@ class Landing extends Component {
             title: this.state.title,
             content: this.state.content
         };
-        // POST para o servidor
-        console.log(JSON.stringify(data));
+
+        console.log(data);
+
         //Atualizando DOM
+        fetch('http://localhost:3521/api/publish', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+            .then(data => {
+                console.log(data);
+            });
+
         this.setState({
             topics: this.state.topics.concat(data)
         });
