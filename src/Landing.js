@@ -54,10 +54,13 @@ class Landing extends Component {
         //Atualizando DOM
         fetch('http://localhost:3521/api/publish', {
             method: 'POST',
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
             body: JSON.stringify(data)
         })
-            .then(data => {
-                console.log(data);
+            .then(res => {
+                console.log(res);
             });
 
         this.setState({
