@@ -7,6 +7,10 @@ $spacing: ();
     @return map-get($spacing, $value);
 }
 
-@mixin solid-shadow($x:0,$y:1px,$color:$gray-100) {
-    box-shadow: $x $y 0 $gray-100;
+@mixin solid-shadow($x:0,$y:1px,$color:$gray-90) {
+    box-shadow: $x $y 0 $color;
+}
+
+@mixin depth-shadow($x:1px,$y:1px,$blur:1px,$color:$gray-90) {
+    box-shadow: $x $y $blur $color;
 }

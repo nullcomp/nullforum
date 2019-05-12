@@ -58,10 +58,7 @@ class Landing extends Component {
                 "Content-Type": "application/json"
             }),
             body: JSON.stringify(data)
-        })
-            .then(res => {
-                console.log(res);
-            });
+        });
 
         this.setState({
             topics: this.state.topics.concat(data)

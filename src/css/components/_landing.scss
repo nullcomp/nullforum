@@ -1,5 +1,17 @@
 .landing {
-    text-align: center;
+    background-color: $gray-100;
+    height: 100vh;
+
+    &__topics {
+
+        margin: s(2) 0;
+        
+        .topics-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 }
 
 @keyframes landing-logo-spin {
