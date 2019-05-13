@@ -1,11 +1,30 @@
 const toxicity = require('@tensorflow-models/toxicity');
+const restify = require('restify-clients');
 const fs = require('fs');
+
+const bdApi = restify.createJsonClient({
+    url: 'http://localhost:8080'
+});
 
 module.exports = app => {
     
-    app.post('/api/publish', (req,res) => {
+    app.post('/api/topics/publish', (req,res) => {
 
         console.log(req.body);
+
+        let publishDate = new Date(req.body.publishDate);
+
+        req.body.publishDate = {
+            day: publishDate.getDate(),
+            month: publishDate.getMonth()+1,
+            year: publishDate.getFullYear()
+        };
+
+        bdApi.post('/posts/add', req.body, (err,req,res,ret) => {
+            console.log(err);
+            console.log(ret);
+        });
+
         res.send('PA');
         return;
 
@@ -39,5 +58,17 @@ module.exports = app => {
         };
 
         predict();
+    });
+
+    app.get('/api/topics/mytrend', (req,res) => {
+        bdApi.get('/users', (err, data) => {
+
+            let allPosts = JSON.parse(data.res.body)
+                .map(post => post.topics)
+                .reduce((arr, el) => arr.concat(el), [])
+                .filter(post => post);
+
+            res.json(allPosts);
+        });
     });
 };

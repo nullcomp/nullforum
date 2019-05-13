@@ -14,45 +14,37 @@ class Landing extends Component {
         this.sendPost = this.sendPost.bind(this);
         this.setTitle = this.setTitle.bind(this);
         this.setContent = this.setContent.bind(this); 
+        this.refreshUsersTopics = this.refreshUsersTopics.bind(this); 
     }
 
     componentDidMount() {
-        this.setState({
-            // Fez o AJAX e o resultado vira isso
-            topics: [
-                {
-                    id: 1532,
-                    title: 'Estreia de Vingadores Ultimato',
-                    content: 'Essa quinta dia 25 é a estreia do mais aguardado filme de 2019, porém um dia antes, na quarta, é a pre-estreia, entao vai ter um monte de boboes que vao dar spoiler do filme',
-                    publishdate: new Date(),
-                    likes: 580000,
-                    dislikes: 265623,
-                    comments: [
-                        {
-                            id: 51132,
-                            content: 'KKK é memo né, vamo quebrar eles na porrada talkei?',
-                            publishdate: new Date(),
-                            likes: 25,
-                            dislikes: 3513
-                        }
-                    ]
-                }
-            ]
-        });
+        this.refreshUsersTopics();
+    }
+
+    refreshUsersTopics() {
+        fetch('http://localhost:3521/api/topics/mytrend')
+            .then(res => res.json())
+            .then(topics => this.setState({ topics }));
     }
 
     sendPost(event) {
+
         event.preventDefault();
         let data = {
             id: 6532,
             title: this.state.title,
-            content: this.state.content
+            content: this.state.content,
+            image: '',
+            authorId: 1,
+            comments: [],
+            likes: 0,
+            dislikes: 0,
+            publishDate: new Date()
         };
 
         console.log(data);
 
-        //Atualizando DOM
-        fetch('http://localhost:3521/api/publish', {
+        fetch('http://localhost:3521/api/topics/publish', {
             method: 'POST',
             headers: new Headers({
                 "Content-Type": "application/json"
@@ -60,9 +52,7 @@ class Landing extends Component {
             body: JSON.stringify(data)
         });
 
-        this.setState({
-            topics: this.state.topics.concat(data)
-        });
+        this.refreshUsersTopics();
     }
 
     setTitle(event) {

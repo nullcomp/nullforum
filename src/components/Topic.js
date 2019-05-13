@@ -14,7 +14,7 @@ export default class Topic extends Component {
                                 <img src="https://picsum.photos/65" alt="Rodrigo Maia"/>
                             </div>
                             <div className="topic-meta-publisher-info">
-                                <a className="name">Rodrigo Maia</a>
+                                <a className="name" href="">Rodrigo Maia</a>
                                 <div className="macro-report">
                                     <span>14 posts</span>
                                     <div className="dot"></div>
