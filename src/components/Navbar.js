@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import logo from '../logo.svg';  
-import {InputForm, ButtonForm} from './FormComponents';
+import { InputForm, RedirectButtonForm} from './FormComponents';
 
 export default class Navbar extends Component {
     
@@ -17,7 +17,7 @@ export default class Navbar extends Component {
             searchText: event.target.value
         });
     }
-    
+
     render() {
         return(
             <nav className="navbar">
@@ -33,10 +33,8 @@ export default class Navbar extends Component {
                         value={this.state.searchText}
                         onChange={this.setSearchText}/>
                 </div>
-                <div className="navbar__actions">
-                    <ButtonForm name="Fazer login" />
-                    <ButtonForm name="Se cadastrar" category="primary" />
-                </div>
+                {/* <div className="navbar__actions">
+                </div> */}
             </nav>
         );
     }

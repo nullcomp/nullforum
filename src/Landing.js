@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import API from './helpers/ApiHelper';
 import Navbar from './components/Navbar';
 import Topic from './components/Topic';
+import ProfileBox from './components/ProfileBox';
 
 class Landing extends Component {
 
@@ -22,7 +24,7 @@ class Landing extends Component {
     }
 
     refreshUsersTopics() {
-        fetch('http://localhost:3521/api/topics/mytrend')
+        fetch(`${API.url}topics/mytrend`)
             .then(res => res.json())
             .then(topics => this.setState({ topics }));
     }
@@ -72,21 +74,24 @@ class Landing extends Component {
             <div className="landing">
                 <Navbar />
                 <div>
-                    <form method="POST" onSubmit={this.sendPost}>
+                    {/* <form method="POST" onSubmit={this.sendPost}>
                         <input type="text" value={this.state.title} onChange={this.setTitle} />
                         <input type="text" value={this.state.content} onChange={this.setContent} />
                         <input type="submit" value="Enviar" />
-                    </form>
+                    </form> */}
+                    <aside>
+                        <ProfileBox />
+                    </aside>
+                    <article className="landing__topics">
+                        <ul className="topics-list">
+                        {
+                            this.state.topics.map(topic => (
+                                <Topic element="li" content={topic} key={topic.id} />
+                            ))
+                        }
+                        </ul>
+                    </article>
                 </div>
-                <article className="landing__topics">
-                    <ul className="topics-list">
-                    {
-                        this.state.topics.map(topic => (
-                            <Topic element="li" content={topic} key={topic.id} />
-                        ))
-                    }
-                    </ul>
-                </article>
             </div>
         );
     }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export class InputForm extends Component {
 
@@ -23,9 +24,23 @@ export class ButtonForm extends Component {
         return (
             <button
                 type={this.props.type || 'submit'}
-                className={`button-form ${this.props.category || ''}`}>
+                className={`button-form ${this.props.category || ''}`}
+                onClick={this.props.action}>
                 {this.props.name}
             </button>
+        );
+    }
+}
+
+export class RedirectButtonForm extends Component {
+
+    render() {
+        return (
+            <Link
+                className={`button-form ${this.props.category || ''}`}
+                to={this.props.linkTo}>
+                {this.props.name}
+            </Link>
         );
     }
 }
@@ -37,6 +52,24 @@ export class DropdownForm extends Component {
             <div>
                 <span>TODO</span>
             </div>
+        );
+    }
+}
+
+// TODO: Form generator
+export default class FormBox extends Component {
+    render() {
+        return (
+            <form method="POST" onSubmit={this.props.action}>
+                {
+                    this.props.fields.map(field => (
+                        <fieldset>
+                            <label>{field.label}</label>
+                            <input type="text"/>
+                        </fieldset>
+                    ))
+                }
+            </form>
         );
     }
 }

@@ -71,4 +71,22 @@ module.exports = app => {
             res.json(allPosts);
         });
     });
+
+    app.post('/api/users/signup', (req,res) => {
+        
+        req.body.id = Math.floor(Math.random() * 42000);
+
+        bdApi.post('/users/add', req.body, (err,req,res,ret) => {
+            console.log(err);
+            console.log(ret);
+        })
+    });
+
+    app.post('/api/user/login', (req,res) => {
+
+        bdApi.post('/user/authentication', req.body, (err,req,res,ret) => {
+            console.log(err);
+            console.log(ret);
+        })
+    });
 };
