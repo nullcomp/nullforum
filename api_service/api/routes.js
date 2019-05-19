@@ -16,12 +16,23 @@ module.exports = app => {
                 res.sendStatus(401);
             } else {
                 let token = jwt.sign(
-                    { login: req.body.username }, 
+                    { user: ret }, 
                     'opacoisaboanutella',
                     { expiresIn:84600 }
                 );
                 res.json({'x-access-token': token});
             }
+        });
+    });
+
+    app.post('/api/users/signup', (req, res) => {
+
+        req.body.id = Math.floor(Math.random() * 42000);
+
+        bdApi.post('/users/add', req.body, (err,req,response,ret) => {
+            console.log(err);
+            console.log(ret);
+            res.sendStatus(200);
         });
     });
 
@@ -41,17 +52,22 @@ module.exports = app => {
     
     app.post('/api/topics/publish', (req,res) => {
 
-        console.log(req.body);
+        let user = req.user.user;
 
-        let publishDate = new Date(req.body.publishDate);
+        let data = req.body;
 
-        req.body.publishDate = {
+        let publishDate = new Date();
+
+        data.publishDate = {
             day: publishDate.getDate(),
             month: publishDate.getMonth()+1,
             year: publishDate.getFullYear()
         };
 
-        bdApi.post('/posts/add', req.body, (err,req,res,ret) => {
+        data.id = Math.floor(Math.random() * 42000);
+        data.authorId = user.id;
+
+        bdApi.post('/posts/add', data, (err,req,res,ret) => {
             console.log(err);
             console.log(ret);
         });
@@ -101,17 +117,5 @@ module.exports = app => {
 
             res.json(allPosts);
         });
-    });
-
-    app.post('/api/users/signup', (req,res) => {
-        
-        req.body.id = Math.floor(Math.random() * 42000);
-
-        //bdApi.post('/users/add', req.body, (err,req,response,ret) => {
-          //  console.log(err);
-            //console.log(ret);
-            res.status(200);
-       // });
-       req.end();
     });
 };

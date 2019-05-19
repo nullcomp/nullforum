@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { InputForm, ButtonForm } from './FormComponents';
-import API, { login } from '../helpers/ApiHelper';
+import API, { login, isAuthenticated } from '../helpers/ApiHelper';
 
 export default class ProfileBox extends Component {
 
@@ -13,7 +13,7 @@ export default class ProfileBox extends Component {
             email: '',
             password: '',
             signingup: false,
-            isLoggedIn: false,
+            isLoggedIn: isAuthenticated(),
             messageFeedback: ''
         };
 
@@ -40,26 +40,6 @@ export default class ProfileBox extends Component {
 
         const response = await API.post('/user/login', data);
         login(response.data['x-access-token']);
-/*
-        fetch(`${API.url}user/login`, {
-            method: 'POST',
-            headers: new Headers({
-                "Content-Type": "application/json"
-            }),
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                if(res.ok) {
-                    this.setState({
-                        isLoggedIn: true
-                    });
-                } else {
-                    this.setState({
-                        messageFeedback: 'Usuário ou senha inválida'
-                    });
-                }
-                this.forceUpdate();
-            });*/
     }
 
     signUp(e) {
@@ -72,18 +52,12 @@ export default class ProfileBox extends Component {
             password: this.state.password
         };
 
-        fetch(`${API.url}users/signup`, {
-            method: 'POST',
-            headers: new Headers({
-                "Content-Type": "application/json"
-            }),
-            body: JSON.stringify(data)
-        })
+        API.post('/users/signup', data)
             .then(()=> {
                 this.setState({
                     signingup: false
                 });
-                this.login(e);
+                this.handleLogin(e);
             });
     }
 
