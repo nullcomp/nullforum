@@ -14,3 +14,9 @@ $spacing: ();
 @mixin depth-shadow($x:1px,$y:1px,$blur:1px,$color:$gray-90) {
     box-shadow: $x $y $blur $color;
 }
+
+@mixin default-scape($vertical-margin:0) {
+    width: 90%;
+    max-width: 1040px;
+    margin: $vertical-margin auto;
+}

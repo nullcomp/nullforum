@@ -13,6 +13,10 @@
             align-items: center;
         }
     }
+
+    &__content {
+        @include default-scape(s(2));
+    }
 }
 
 @keyframes landing-logo-spin {

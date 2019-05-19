@@ -1,0 +1,37 @@
+.profile-box {
+    
+    max-width: 280px;
+    background-color: $white;
+    border-radius: 2px;
+    padding: 16px;
+    @include depth-shadow;
+
+    &__wrapper {
+        
+        .title {
+            font-size: 16px;
+            color: $purple-40;
+            text-align: center;
+            margin-bottom: s(2);
+        }
+
+        .form {
+
+            .form-buttons {
+                margin-top: s(1); 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .input-form {
+
+                margin-bottom: s(1);
+                
+                &:last-child {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

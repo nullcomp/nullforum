@@ -24,9 +24,9 @@ class Landing extends Component {
     }
 
     refreshUsersTopics() {
-        fetch(`${API.url}topics/mytrend`)
-            .then(res => res.json())
-            .then(topics => this.setState({ topics }));
+        API
+            .get('/topics/mytrend')
+            .then(res => this.setState({ topics: res.data }));
     }
 
     sendPost(event) {
@@ -73,7 +73,7 @@ class Landing extends Component {
         return (
             <div className="landing">
                 <Navbar />
-                <div>
+                <div className="landing__content">
                     {/* <form method="POST" onSubmit={this.sendPost}>
                         <input type="text" value={this.state.title} onChange={this.setTitle} />
                         <input type="text" value={this.state.content} onChange={this.setContent} />

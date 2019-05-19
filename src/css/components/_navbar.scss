@@ -1,14 +1,19 @@
 .navbar {
 
-    background-color: $white;
     display: flex;
     align-items: center;
+    background-color: $white;
     font-size: calc(10px + 2vmin);
-    padding: 0 s(2);
     color: $black;
     height: 64px;
     @include solid-shadow;
-
+    
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        @include default-scape;
+    }
+    
     &__logo {
         
         img {

@@ -21,20 +21,23 @@ export default class Navbar extends Component {
     render() {
         return(
             <nav className="navbar">
-                <div className="navbar__logo">
-                    <img src={logo} alt="logo" />
+                <div className="navbar__wrapper">
+                    <div className="navbar__logo">
+                        <img src={logo} alt="logo" />
+                    </div>
+                    {/*<div className="navbar__filter">
+                        <DropdownForm />
+                    </div>*/}
+                    <div className="navbar__search">
+                        <InputForm 
+                            placeholder="Busque por um tópico no forum" 
+                            value={this.state.searchText}
+                            onChange={this.setSearchText}/>
+                    </div>
+                    {/*<div className="navbar__actions">
+                    </div>*/
+                    }
                 </div>
-                {/* <div className="navbar__filter">
-                    <DropdownForm />
-                </div> */}
-                <div className="navbar__search">
-                    <InputForm 
-                        placeholder="Busque por um tópico no forum" 
-                        value={this.state.searchText}
-                        onChange={this.setSearchText}/>
-                </div>
-                {/* <div className="navbar__actions">
-                </div> */}
             </nav>
         );
     }
