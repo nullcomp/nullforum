@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { InputForm, ButtonForm } from './FormComponents';
-import API, { login, isAuthenticated } from '../helpers/ApiHelper';
+import API, { login, isAuthenticated, logout } from '../helpers/ApiHelper';
+import PubSub from 'pubsub-js';
 
 export default class ProfileBox extends Component {
 
@@ -20,7 +21,8 @@ export default class ProfileBox extends Component {
         this.outsideView = this.outsideView.bind(this);
         this.insideView = this.insideView.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
-        this.signUp = this.signUp.bind(this);
+        this.handleSignUp = this.handleSignUp.bind(this);
+        this.handleSingout = this.handleSingout.bind(this);
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.setName = this.setName.bind(this);
@@ -28,6 +30,14 @@ export default class ProfileBox extends Component {
         this.getSignUpForm = this.getSignUpForm.bind(this);
         this.goSignUp = this.goSignUp.bind(this);
         this.goLogin = this.goLogin.bind(this);
+    }
+
+    handleSingout() {
+        logout();
+        PubSub.publish('user-session-changed', { logged: false });
+        this.setState({
+            isLoggedIn: isAuthenticated()
+        });
     }
 
     handleLogin = async (e) => {
@@ -40,9 +50,13 @@ export default class ProfileBox extends Component {
 
         const response = await API.post('/user/login', data);
         login(response.data['x-access-token']);
+        PubSub.publish('user-session-changed', { logged: true });
+        this.setState({
+            isLoggedIn: isAuthenticated()
+        });
     }
 
-    signUp(e) {
+    handleSignUp(e) {
         e.preventDefault();
 
         let data = {
@@ -103,7 +117,7 @@ export default class ProfileBox extends Component {
                 <div className="title">
                     <h4>Hey, come on and join this great community</h4>
                 </div>
-                <form method="POST" className="form" onSubmit={this.signUp}>
+                <form method="POST" className="form" onSubmit={this.handleSignUp}>
                     <InputForm
                         value={this.state.name}
                         onChange={this.setName}
@@ -185,7 +199,13 @@ export default class ProfileBox extends Component {
 
     insideView() {
         return (
-            <span>I'm in</span>
+            <div>
+                <span>I'm in</span>
+                <ButtonForm
+                    name="Logout"
+                    action={this.handleSingout}
+                />
+            </div>
         );
     }
 

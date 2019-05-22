@@ -1,9 +1,9 @@
 .topic {
     background: $white;
-    max-width: 736px;
     @include depth-shadow;
     display: flex;
     border-radius: 1px;
+    width: 100%;
 
     &__meta,
     &__content {

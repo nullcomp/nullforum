@@ -5,17 +5,24 @@
 
     &__topics {
 
-        margin: s(2) 0;
+        margin-left: s(2);
+        flex-grow: 1;
         
         .topics-list {
             display: flex;
             flex-direction: column;
             align-items: center;
+
+            .topic {
+                margin-bottom: s(2);
+            }
         }
     }
 
     &__content {
         @include default-scape(s(2));
+        display: flex;
+        justify-content: space-between
     }
 }
 

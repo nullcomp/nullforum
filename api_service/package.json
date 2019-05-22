@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
+    "nodemon": "^1.19.0",
     "restify": "^8.3.2",
     "restify-clients": "^2.6.4"
   }
