@@ -54,7 +54,7 @@ class Landing extends Component {
                         { this.getPostingForm() }
                         <ul className="topics-list">
                         {
-                            this.state.topics.map(topic => (
+                            this.state.topics.reverse().map(topic => (
                                 <Topic element="li" content={topic} key={topic.id} />
                             ))
                         }

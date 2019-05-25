@@ -14,9 +14,17 @@ export default class ProfileBox extends Component {
             email: '',
             password: '',
             signingup: false,
+            messageFeedback: '',
             isLoggedIn: isAuthenticated(),
-            messageFeedback: ''
+            loggedUserInfo: {}
         };
+
+        API.get('/loggeduserinfo')
+            .then(res => {
+                this.setState({
+                    loggedUserInfo: res.data.user
+                });
+            });
 
         this.outsideView = this.outsideView.bind(this);
         this.insideView = this.insideView.bind(this);
@@ -30,6 +38,7 @@ export default class ProfileBox extends Component {
         this.getSignUpForm = this.getSignUpForm.bind(this);
         this.goSignUp = this.goSignUp.bind(this);
         this.goLogin = this.goLogin.bind(this);
+        this.cleanUpFields = this.cleanUpFields.bind(this);
     }
 
     handleSingout() {
@@ -51,6 +60,7 @@ export default class ProfileBox extends Component {
         const response = await API.post('/user/login', data);
         login(response.data['x-access-token']);
         PubSub.publish('user-session-changed', { logged: true });
+        this.cleanUpFields();
         this.setState({
             isLoggedIn: isAuthenticated()
         });
@@ -68,11 +78,19 @@ export default class ProfileBox extends Component {
 
         API.post('/users/signup', data)
             .then(()=> {
-                this.setState({
-                    signingup: false
-                });
                 this.handleLogin(e);
             });
+    }
+
+    cleanUpFields() {
+        this.setState({
+            username: '',
+            name: '',
+            email: '',
+            password: '',
+            signingup: false,
+            messageFeedback: ''
+        });
     }
 
     setUsername(e) {
@@ -199,12 +217,27 @@ export default class ProfileBox extends Component {
 
     insideView() {
         return (
-            <div>
-                <span>I'm in</span>
-                <ButtonForm
-                    name="Logout"
-                    action={this.handleSingout}
-                />
+            <div className="profile-box-logged">
+                <div className="profile-box-logged__basic-info">
+                    <div className="profile-pic">
+                        <img src="https://picsum.photos/100" />
+                    </div>
+                    <div className="profile-username">
+                        <h3>{ this.state.loggedUserInfo.username }</h3>
+                    </div>
+                    <div className="profile-info">
+                        <ul>
+                            <li>{this.state.loggedUserInfo.email}</li>
+                            <li>{this.state.loggedUserInfo.name}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="profile-box-logged__actions">
+                    <ButtonForm
+                        name="Logout"
+                        action={this.handleSingout}
+                    />
+                </div>
             </div>
         );
     }

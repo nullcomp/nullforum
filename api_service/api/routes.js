@@ -36,11 +36,22 @@ module.exports = app => {
 
     app.get('/api/topics/feed', (req, res) => {
         bdApi.get('/users', (err, data) => {
-
+            let usersMap = {};
+            
+            JSON.parse(data.res.body)
+                .map(user => ({
+                    id: user.id,
+                    name: user.username   
+                }))
+                .forEach(user => usersMap[user.id] = user.name);
+                
             let allPosts = JSON.parse(data.res.body)
                 .map(post => post.topics)
                 .reduce((arr, el) => arr.concat(el), [])
                 .filter(post => post);
+            allPosts
+                .forEach(post => 
+                    post['authorUsername'] = usersMap[post.authorId]);
 
             res.json(allPosts);
         });
@@ -59,10 +70,11 @@ module.exports = app => {
             });
         }
     });
+
+    app.use('/api/loggeduserinfo', (req,res) => 
+        res.json(req.user))
     
     app.post('/api/topics/publish', (req,res) => {
-
-        console.log('qewwewdsasa');
 
         let user = req.user.user;
 
@@ -81,7 +93,11 @@ module.exports = app => {
 
         const samples = [
             {
-                'id': '002261b0415c4f9d',
+                'id': 'title',
+                'text': data.title
+            },
+            {
+                'id': 'content',
                 'text': data.content
             }
         ];
@@ -104,15 +120,52 @@ module.exports = app => {
             labels = model.model.outputNodes.map(d => d.split('/')[0]);
 
             predictions = await classify(samples.map(d => d.text));
+            console.log('Dentro do predict');
             console.log(predictions);
+            console.log('Tipo da predicao dentro do predict');
+            console.log(typeof(predictions));
+            return predictions;
         };
-        
-        
-        bdApi.post('/posts/add', data, (err, requisition, response, ret) => {
-            console.log(err);
-            console.log(ret);
-        });
-        predict();
-        res.json(predictions);
+        let promise = predict();
+        promise
+            .then(predictions => {
+                console.log('ja tenho as predicoes');
+                let hasToxicity = (
+                    predictions &&
+                    predictions
+                        .some(prediction => 
+                            Object.values(prediction)
+                                .some(item => item == true)));
+                if (hasToxicity) {
+                    let messages = {
+                        title: [],
+                        content: []
+                    };
+
+                    let titleKeys = Object.keys(predictions[0]); 
+                    let contentKeys = Object.keys(predictions[1]); 
+
+                    if (titleKeys.some(item => item)) {
+                        titleKeys
+                            .forEach((item,index) => {
+                                if (predictions[0][item] == true)
+                                    messages.title.push(`Your title contains ${item.replace('_', ' ')}`);
+                            });
+                    }
+                    if (contentKeys.some(item => item)){
+                        contentKeys
+                            .forEach((item, index) => {
+                                if (predictions[1][item] == true)
+                                    messages.content.push(`Your content contains ${item.replace('_', ' ')}`);
+                            });
+                    }
+                    res.json(messages);
+                } else {
+                    bdApi.post('/posts/add', data, () => {
+                        console.log('salvei no banco e vou mandar as requisition');
+                        res.sendStatus(200);
+                    });
+                }
+            });
     });
 };

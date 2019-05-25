@@ -13,6 +13,10 @@
         width: 100%; 
         transition: border-color .3s ease-in-out;
         outline: none;
+
+        &:disabled {
+            background: $gray-90;
+        }
         
         &::placeholder {
             color: $gray-80;

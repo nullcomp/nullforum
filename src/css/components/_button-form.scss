@@ -12,6 +12,12 @@
     text-decoration: none;
     font-size: 14px;
 
+    &:disabled {
+        filter: grayscale(60%);
+        opacity: 0.9;
+        cursor: default;
+    }
+
     &.primary {
         background-color: $purple-60;
         color: $white; 

@@ -1,0 +1,18 @@
+.new-topic {
+    padding: s(2);
+    margin-bottom: s(2);
+    background: $white;
+    @include depth-shadow;
+    border-radius: 1px;
+    &__form {        
+        .input-form {
+            margin-bottom: s(1);
+        }
+
+        .event-fieldset {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}

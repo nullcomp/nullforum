@@ -35,3 +35,38 @@
         }
     }
 }
+
+.profile-box-logged {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__basic-info {
+        margin-bottom: s(2);
+
+        .profile-pic {
+            margin-bottom: s(1);
+            display: flex;
+            justify-content: center;
+            img {
+                border-radius: 50px;
+            }
+        }
+
+        .profile-username {
+            color: $blue-0;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: s(2);
+        }
+
+        .profile-info {
+            text-align: left;
+            font-size: 12px;
+
+            li {
+                margin-bottom: s(1);
+            }
+        }
+    }
+}

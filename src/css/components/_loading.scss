@@ -1,0 +1,9 @@
+.loading {
+    display: none;
+    animation: landing-logo-spin .4s infinite;
+    height: 45px;
+    
+    &.show {
+        display: block;
+    }
+}

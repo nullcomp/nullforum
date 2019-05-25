@@ -12,7 +12,8 @@ export class InputForm extends Component {
                     id={this.props.id}
                     placeholder={this.props.placeholder}
                     value={this.props.value}
-                    onChange={this.props.onChange} />
+                    onChange={this.props.onChange} 
+                    disabled={this.props.disabled} />
             </div>
         );
     }
@@ -25,7 +26,8 @@ export class ButtonForm extends Component {
             <button
                 type={this.props.type || 'submit'}
                 className={`button-form ${this.props.category || ''}`}
-                onClick={this.props.action}>
+                onClick={this.props.action}
+                disabled={this.props.disabled}>
                 {this.props.name}
             </button>
         );
@@ -38,7 +40,8 @@ export class RedirectButtonForm extends Component {
         return (
             <Link
                 className={`button-form ${this.props.category || ''}`}
-                to={this.props.linkTo}>
+                to={this.props.linkTo}
+                disabled={this.props.disabled}>
                 {this.props.name}
             </Link>
         );
