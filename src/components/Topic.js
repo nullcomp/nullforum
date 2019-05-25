@@ -59,16 +59,19 @@ export class WritingTopicBox extends Component {
             .then(res => {
                 if(res.data !== 'OK') {
                     console.log(res.data);
-                    let arr = [
-                        {
-                            type: 'title',
-                            message: res.data.title
-                        },
-                        {
-                            type: 'content',
-                            message: res.data.content
-                        }
-                    ]
+                    let arr = [];
+                    res.data.title.forEach((message,i) => {
+                        arr.push({
+                            type: 'title-' + i,
+                            message
+                        });
+                    });
+                    res.data.content.forEach((message,i) => {
+                        arr.push({
+                            type: 'content-' + i,
+                            message
+                        });
+                    });
                     this.setState({
                         toxicityAlerts: arr,
                         posting: false
@@ -82,19 +85,22 @@ export class WritingTopicBox extends Component {
 
     setTitle(event) {
         this.setState({
-            title: event.target.value
+            title: event.target.value,
+            warningMessage: ''
         });
     }
 
     setImage(event) {
         this.setState({
-            image: event.target.value
+            image: event.target.value,
+            warningMessage: ''
         });
     }
 
     setContent(event) {
         this.setState({
-            content: event.target.value
+            content: event.target.value,
+            warningMessage: ''
         });
     }
 
